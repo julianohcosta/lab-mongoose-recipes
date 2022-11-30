@@ -40,7 +40,7 @@ npm install
 
 ### Iteration 1 - Recipe Schema
 
-Create a `Recipe` model inside of the file `/models/Recipe.model.js`. The schema should have the following fields:
+Create a `Recipe` model inside of the file `/models/recipes.model.js`. The schema should have the following fields:
 
 - **title** - Type `String`. It should be required and unique.
 - **level** - Type `String`. Can be one of the following values: _Easy Peasy_ - _Amateur Chef_ - _UltraPro Chef_ (remember the `enum` validator :wink:).

@@ -1,23 +1,19 @@
-const mongoose = require('mongoose');
+import express from 'express'
+import * as dotenv from 'dotenv'
+import dbConnection from './config/db.config.js'
+import recipeRouter from './routes/recipes.routes.js'
+import Recipe from "./models/recipes.model";
 
-// Import of the model Recipe from './models/Recipe.model.js'
-const Recipe = require('./models/Recipe.model');
-// Import of the data from './data.json'
-const data = require('./data');
+dotenv.config()
 
-const MONGODB_URI = 'mongodb://localhost:27017/recipe-app';
+dbConnection()
+    .then(_ => Recipe.deleteMany())
 
-// Connection to the database "recipe-app"
-mongoose
-  .connect(MONGODB_URI)
-  .then(x => {
-    console.log(`Connected to the database: "${x.connection.name}"`);
-    // Before adding any recipes to the database, let's remove all existing ones
-    return Recipe.deleteMany()
-  })
-  .then(() => {
-    // Run your code here, after you have insured that the connection was made
-  })
-  .catch(error => {
-    console.error('Error connecting to the database', error);
-  });
+const app = express()
+app.use(express.json())
+
+app.use('/recipes', recipeRouter)
+
+app.listen(Number(process.env.PORT), () => {
+    console.log(`server listening on PORT`, process.env.PORT)
+})
